@@ -21,15 +21,25 @@ export const getCurrentWeather = async (req: Request, res: Response): Promise<vo
     const city = String(req.query.city ?? "").trim();
     const coordinates = parseCoordinates(req);
 
-    const weather = city
-      ? await getWeatherByCity(city)
-      : coordinates
-        ? await getWeatherByCoordinates({
-            city: "Your Location",
-            latitude: coordinates.latitude,
-            longitude: coordinates.longitude,
-          })
-        : await getWeatherByCoordinates(getDefaultCity());
+    let weather;
+    if (coordinates) {
+      weather = await getWeatherByCoordinates({
+        city: city.length > 0 ? city : "Your Location",
+        latitude: coordinates.latitude,
+        longitude: coordinates.longitude,
+      });
+    } else if (city.length > 0) {
+      weather = await getWeatherByCity(city);
+    } else {
+      const fallback = getDefaultCity();
+      weather = await getWeatherByCoordinates({
+        city: fallback.city,
+        country: fallback.country,
+        latitude: fallback.latitude,
+        longitude: fallback.longitude,
+        timezone: fallback.timezone,
+      });
+    }
 
     res.status(200).json({
       location: weather.location,
@@ -48,15 +58,25 @@ export const getForecast = async (req: Request, res: Response): Promise<void> =>
     const city = String(req.query.city ?? "").trim();
     const coordinates = parseCoordinates(req);
 
-    const weather = city
-      ? await getWeatherByCity(city)
-      : coordinates
-        ? await getWeatherByCoordinates({
-            city: "Your Location",
-            latitude: coordinates.latitude,
-            longitude: coordinates.longitude,
-          })
-        : await getWeatherByCoordinates(getDefaultCity());
+    let weather;
+    if (coordinates) {
+      weather = await getWeatherByCoordinates({
+        city: city.length > 0 ? city : "Your Location",
+        latitude: coordinates.latitude,
+        longitude: coordinates.longitude,
+      });
+    } else if (city.length > 0) {
+      weather = await getWeatherByCity(city);
+    } else {
+      const fallback = getDefaultCity();
+      weather = await getWeatherByCoordinates({
+        city: fallback.city,
+        country: fallback.country,
+        latitude: fallback.latitude,
+        longitude: fallback.longitude,
+        timezone: fallback.timezone,
+      });
+    }
 
     res.status(200).json({
       location: weather.location,

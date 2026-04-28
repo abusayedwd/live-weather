@@ -1,7 +1,11 @@
 {
   "name": "live-weather",
   "private": true,
-  "description": "Run frontend/backend from repo root — use npm run dev:frontend from live-weather folder",
+  "description": "Run frontend/backend from repo root \u2014 use npm run dev:frontend from live-weather folder",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "node-fetch": "^3.3.2"
+  },
   "scripts": {
     "dev": "npm run dev --prefix frontend",
     "dev:frontend": "npm run dev --prefix frontend",

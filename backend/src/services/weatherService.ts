@@ -24,6 +24,7 @@ type ForecastApiResponse = {
     apparent_temperature: number[];
     weather_code: number[];
     precipitation_probability: number[];
+    precipitation: number[];
   };
   daily: {
     time: string[];
@@ -53,7 +54,7 @@ const buildCurrentWeather = (data: ForecastApiResponse): CurrentWeather => ({
 });
 
 const buildHourlyForecast = (data: ForecastApiResponse): HourlyForecastItem[] => {
-  return data.hourly.time.slice(0, 24).map((time, index) => {
+  return data.hourly.time.map((time, index) => {
     const code = data.hourly.weather_code[index];
     return {
       time,
@@ -62,6 +63,7 @@ const buildHourlyForecast = (data: ForecastApiResponse): HourlyForecastItem[] =>
       weatherCode: code,
       condition: getWeatherCondition(code),
       rainChance: data.hourly.precipitation_probability[index] ?? 0,
+      precipitationMm: toFixedNumber(data.hourly.precipitation[index] ?? 0),
     };
   });
 };
@@ -98,9 +100,13 @@ const buildForecastUrl = (latitude: number, longitude: number): URL => {
   );
   url.searchParams.set(
     "hourly",
-    ["temperature_2m", "apparent_temperature", "weather_code", "precipitation_probability"].join(
-      ",",
-    ),
+    [
+      "temperature_2m",
+      "apparent_temperature",
+      "weather_code",
+      "precipitation_probability",
+      "precipitation",
+    ].join(","),
   );
   url.searchParams.set(
     "daily",

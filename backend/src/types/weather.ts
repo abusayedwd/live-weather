@@ -28,6 +28,8 @@ export type HourlyForecastItem = {
   weatherCode: number;
   condition: string;
   rainChance: number;
+  /** Hourly precipitation (rain + showers + snow water equivalent), mm */
+  precipitationMm: number;
 };
 
 export type DailyForecastItem = {

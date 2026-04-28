@@ -1,0 +1,13 @@
+{
+  "name": "live-weather",
+  "private": true,
+  "description": "Run frontend/backend from repo root — use npm run dev:frontend from live-weather folder",
+  "scripts": {
+    "dev": "npm run dev --prefix frontend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "build": "npm run build --prefix backend && npm run build --prefix frontend",
+    "start:frontend": "npm run start --prefix frontend",
+    "start:backend": "npm run start --prefix backend"
+  }
+}
